@@ -1,6 +1,54 @@
+# ============================================================
+# Caching
+# ============================================================
+
+# Long cache for static assets (1 year, immutable).
+# Safe because deploys publish to a fresh URL via Netlify's CDN.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# MP4 needs explicit Content-Type + Accept-Ranges for proper streaming.
 [[headers]]
   for = "/*.mp4"
   [headers.values]
     Content-Type = "video/mp4"
     Accept-Ranges = "bytes"
-    Cache-Control = "public, max-age=3600"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML must revalidate so site updates go live on next deploy.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# CSS/JS at root: revalidate (filenames aren't fingerprinted).
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ============================================================
+# Security headers (apply to every response)
+# ============================================================
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# ============================================================
+# 404
+# ============================================================
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

@@ -13,6 +13,39 @@
   const prefersReducedMotion =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* -------------------- Preloader dismiss --------------------
+     Strategy: keep the preloader visible long enough for the drop-fill
+     animation to feel intentional (~900ms minimum), but never longer
+     than 2.8s even on slow connections. Dismiss as soon as window.load
+     fires after the minimum has elapsed. */
+  const preloader = document.getElementById("preloader");
+  if (preloader) {
+    const MIN_DISPLAY = prefersReducedMotion ? 0 : 900;
+    const MAX_DISPLAY = 2800;
+    const start = performance.now();
+    let dismissed = false;
+
+    const dismiss = () => {
+      if (dismissed) return;
+      dismissed = true;
+      const elapsed = performance.now() - start;
+      const wait = Math.max(0, MIN_DISPLAY - elapsed);
+      setTimeout(() => {
+        preloader.classList.add("is-loaded");
+        /* Remove from the DOM after the fade so it never blocks pointer
+           events or eats screen-reader focus on slow devices. */
+        setTimeout(() => preloader.remove(), 700);
+      }, wait);
+    };
+
+    if (document.readyState === "complete") {
+      dismiss();
+    } else {
+      window.addEventListener("load", dismiss, { once: true });
+    }
+    setTimeout(dismiss, MAX_DISPLAY);
+  }
+
   /* -------------------- Footer year -------------------- */
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -68,7 +101,11 @@
     tabs.forEach((t) => {
       const active = t.dataset.tab === id;
       t.classList.toggle("is-active", active);
-      t.setAttribute("aria-selected", active ? "true" : "false");
+      /* aria-current is the right semantic for "current location within
+         a single-page nav" — aria-selected only applies inside a real tab
+         widget that toggles tabpanels. */
+      if (active) t.setAttribute("aria-current", "true");
+      else t.removeAttribute("aria-current");
     });
     positionUnderline(tabMap.get(id));
   }

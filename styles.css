@@ -50,7 +50,10 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  /* overflow-x: clip masks the horizontal-pinned timeline overflow without
+     creating a new scroll container (which `hidden` would). Lets GSAP's
+     position: fixed pin work correctly while preventing horizontal scroll. */
+  overflow-x: clip;
 }
 img, video, iframe { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -69,6 +72,65 @@ a { color: inherit; text-decoration: none; }
   z-index: 999;
 }
 .skip-link:focus { left: 12px; }
+
+/* ============================================================
+   Preloader — animated water drop filling with the brand gradient.
+   Visible by default; JS adds .is-loaded to fade it out once the
+   page is ready. <noscript> override hides it for no-JS users.
+   ============================================================ */
+.preloader {
+  position: fixed; inset: 0;
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(80% 60% at 50% 40%, rgba(29,161,242,0.10), transparent 70%),
+    var(--navy);
+  transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+}
+.preloader.is-loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.preloader-inner { text-align: center; }
+.preloader-drop {
+  display: block; margin: 0 auto 28px;
+  filter: drop-shadow(0 0 26px rgba(29,161,242,0.45));
+}
+/* Mirrors the header wordmark: Cormorant Garamond, weight 500/400,
+   stacked "BadFox" / "Pools" with the same 0.04em tracking. Sized up
+   for preloader prominence. */
+.preloader-text {
+  font-family: var(--font-display);
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+.preloader-wordmark-main {
+  display: block;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--white);
+}
+.preloader-wordmark-sub {
+  display: block;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--silver);
+  margin-top: 8px;
+}
+.preloader-tagline {
+  margin: 26px 0 0;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--silver);
+  opacity: 0.55;
+}
 
 .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
 
@@ -491,6 +553,8 @@ a { color: inherit; text-decoration: none; }
 .link:hover { color: var(--white); border-color: var(--white); }
 
 .contact-form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+/* Netlify honeypot — visually hidden, present in DOM for bots only. */
+.hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .field { display: flex; flex-direction: column; }
 .field label {
   font-size: 11px;
@@ -639,4 +703,5 @@ a { color: inherit; text-decoration: none; }
   }
   [data-anim="fadeUp"], [data-anim="cardUp"] { opacity: 1; transform: none; }
   .hero-scroll-hint { display: none; }
+  .preloader { transition-duration: 0.001ms !important; }
 }
