@@ -208,6 +208,27 @@ a { color: inherit; text-decoration: none; }
 
 .nav-cta { justify-self: end; }
 
+/* Nav actions: Customer Login + Book Service grouped at the right edge */
+.nav-actions {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.nav-login {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--silver);
+  padding: 8px 4px;
+  transition: color .3s var(--ease);
+}
+.nav-login:hover { color: var(--white); }
+.nav-login:focus-visible { color: var(--white); }
+.nav-login-short { display: none; }
+
 /* ============================================================
    Buttons
    ============================================================ */
@@ -675,6 +696,12 @@ a { color: inherit; text-decoration: none; }
   .tabs ul { gap: 2px; padding: 4px; }
   .tab { padding: 8px 12px; font-size: 11px; }
   .nav-cta { display: none; }
+  /* On mobile, hide the Book Service button but keep Customer Login visible */
+  .nav-actions .btn { display: none; }
+  .nav-actions { gap: 0; }
+  .nav-login-full { display: none; }
+  .nav-login-short { display: inline; }
+  .nav-login { letter-spacing: 0.16em; padding: 8px 2px; }
   .hero-inner { padding: 100px 24px; }
   .features, .about, .contact { padding: 90px 0; }
   /* Timeline: vertical stack on mobile (GSAP horizontal scroll disabled) */
@@ -689,6 +716,9 @@ a { color: inherit; text-decoration: none; }
   .tab-us { display: none; }
   .tabs ul { gap: 0; padding: 3px; }
   .tab { padding: 6px 9px; font-size: 9px; letter-spacing: 0.12em; }
+  /* Hide nav-login on phone — tabs need the room. Login still accessible
+     via the "Customer Portal Login" link in the footer Contact column. */
+  .nav-actions { display: none; }
 }
 
 /* ============================================================
