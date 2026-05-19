@@ -788,12 +788,15 @@ body.mobile-menu-open { overflow: hidden; }
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .contact-form { grid-template-columns: 1fr; }
-  /* Mobile nav layout: wordmark + hamburger (no tabs pill in the header) */
+  /* Mobile nav layout: wordmark (larger) on the left, login + hamburger on the right */
   .nav-wrap { grid-template-columns: auto 1fr auto; gap: 10px; }
   .tabs { display: none; }
   .nav-actions .btn { display: none; }
-  .nav-actions { gap: 6px; }
+  .nav-actions { gap: 8px; }
   .nav-menu-toggle { display: inline-flex; }
+  /* Bigger wordmark on mobile for stronger brand presence in the slimmer nav */
+  .wordmark-text { font-size: 28px; }
+  .wordmark-sub { font-size: 18px; }
   .hero-inner { padding: 100px 24px; }
   .features, .about, .contact { padding: 90px 0; }
   /* Timeline: vertical stack on mobile (GSAP horizontal scroll disabled) */
@@ -804,8 +807,10 @@ body.mobile-menu-open { overflow: hidden; }
 @media (max-width: 560px) {
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
+  /* Keep wordmark substantial on phones — single line "BadFox" */
+  .wordmark-text { font-size: 26px; }
   .wordmark-sub { display: none; }
-  /* Keep the Log In link visible — hamburger is small enough to fit alongside it. */
+  /* Login icon-only on very narrow screens so wordmark + hamburger get room */
   .nav-login { font-size: 0; padding: 8px; }
   .nav-login-icon { width: 18px; height: 18px; opacity: 1; }
 }
