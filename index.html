@@ -137,6 +137,25 @@
         <span class="tab-underline" aria-hidden="true"></span>
       </nav>
 
+      <button
+        type="button"
+        class="nav-menu-toggle"
+        id="navMenuToggle"
+        aria-expanded="false"
+        aria-controls="mobileMenu"
+        aria-label="Open menu"
+      >
+        <svg class="nav-menu-icon nav-menu-icon-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16"/>
+          <path d="M4 12h16"/>
+          <path d="M4 17h16"/>
+        </svg>
+        <svg class="nav-menu-icon nav-menu-icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 6l12 12"/>
+          <path d="M18 6L6 18"/>
+        </svg>
+      </button>
+
       <div class="nav-actions">
         <a href="https://app.badfoxpools.com/login" class="nav-login" rel="noopener" aria-label="Customer log in">
           <svg class="nav-login-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -146,6 +165,36 @@
           <span class="nav-login-text">Log In</span>
         </a>
         <a href="#contact" class="btn btn-ghost">Book Service</a>
+      </div>
+    </div>
+
+    <!-- Mobile dropdown menu. Hidden on desktop; toggled by .nav-menu-toggle. -->
+    <div
+      id="mobileMenu"
+      class="mobile-menu"
+      role="dialog"
+      aria-label="Site menu"
+      aria-hidden="true"
+    >
+      <ul class="mobile-menu-list">
+        <li><a href="#home" class="mobile-menu-link" data-mobile-link>Home</a></li>
+        <li><a href="#services" class="mobile-menu-link" data-mobile-link>Services</a></li>
+        <li><a href="#about" class="mobile-menu-link" data-mobile-link>About Us</a></li>
+        <li><a href="#contact" class="mobile-menu-link" data-mobile-link>Contact</a></li>
+      </ul>
+      <div class="mobile-menu-actions">
+        <a
+          href="https://app.badfoxpools.com/login"
+          class="mobile-menu-link mobile-menu-login"
+          rel="noopener"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Log In
+        </a>
+        <a href="#contact" class="btn btn-primary mobile-menu-cta" data-mobile-link>Book Service</a>
       </div>
     </div>
   </header>

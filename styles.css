@@ -240,6 +240,91 @@ a { color: inherit; text-decoration: none; }
 .nav-login:focus-visible { color: var(--white); }
 .nav-login:focus-visible .nav-login-icon { opacity: 1; color: var(--accent-2); }
 
+/* Hamburger menu toggle — desktop hides it; mobile shows it instead of tabs. */
+.nav-menu-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  color: var(--silver);
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: color .3s var(--ease), border-color .3s var(--ease), background-color .3s var(--ease);
+  padding: 0;
+}
+.nav-menu-toggle:hover { color: var(--white); border-color: var(--silver); }
+.nav-menu-toggle:focus-visible { color: var(--white); border-color: var(--accent-2); }
+.nav-menu-icon-close { display: none; }
+.nav-menu-toggle[aria-expanded="true"] .nav-menu-icon-open { display: none; }
+.nav-menu-toggle[aria-expanded="true"] .nav-menu-icon-close { display: block; }
+
+/* Mobile dropdown menu — slides down from the header on toggle. */
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background:
+    radial-gradient(60% 60% at 50% 0%, rgba(29,161,242,0.10), transparent 70%),
+    var(--navy);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 16px 24px 24px;
+  z-index: 50;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.mobile-menu.is-open {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.mobile-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mobile-menu-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--silver);
+  border-radius: var(--radius);
+  transition: color .2s var(--ease), background-color .2s var(--ease);
+}
+.mobile-menu-link:hover,
+.mobile-menu-link:focus-visible { color: var(--white); background: rgba(255,255,255,0.04); }
+.mobile-menu-actions {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mobile-menu-login { color: var(--accent-2); }
+.mobile-menu-cta { width: 100%; }
+
+/* Prevent body scroll while the mobile menu is open. */
+body.mobile-menu-open { overflow: hidden; }
+
 /* ============================================================
    Buttons
    ============================================================ */
@@ -703,16 +788,12 @@ a { color: inherit; text-decoration: none; }
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .contact-form { grid-template-columns: 1fr; }
+  /* Mobile nav layout: wordmark + hamburger (no tabs pill in the header) */
   .nav-wrap { grid-template-columns: auto 1fr auto; gap: 10px; }
-  .tabs ul { gap: 2px; padding: 4px; }
-  .tab { padding: 8px 12px; font-size: 11px; }
-  .nav-cta { display: none; }
-  /* On mobile, hide the Book Service button to make room for the tabs.
-     The Log In link stays visible (compact with its icon). */
+  .tabs { display: none; }
   .nav-actions .btn { display: none; }
-  .nav-actions { gap: 0; }
-  .nav-login { letter-spacing: 0.14em; padding: 8px 2px; font-size: 10px; }
-  .nav-login-icon { width: 13px; height: 13px; }
+  .nav-actions { gap: 6px; }
+  .nav-menu-toggle { display: inline-flex; }
   .hero-inner { padding: 100px 24px; }
   .features, .about, .contact { padding: 90px 0; }
   /* Timeline: vertical stack on mobile (GSAP horizontal scroll disabled) */
@@ -724,12 +805,9 @@ a { color: inherit; text-decoration: none; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
   .wordmark-sub { display: none; }
-  .tab-us { display: none; }
-  .tabs ul { gap: 0; padding: 3px; }
-  .tab { padding: 6px 9px; font-size: 9px; letter-spacing: 0.12em; }
-  /* Hide nav-login on phone — tabs need the room. Login still accessible
-     via the "Customer Portal Login" link in the footer Contact column. */
-  .nav-actions { display: none; }
+  /* Keep the Log In link visible — hamburger is small enough to fit alongside it. */
+  .nav-login { font-size: 0; padding: 8px; }
+  .nav-login-icon { width: 18px; height: 18px; opacity: 1; }
 }
 
 /* ============================================================

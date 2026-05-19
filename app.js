@@ -50,6 +50,45 @@
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* -------------------- Mobile menu toggle -------------------- */
+  const menuToggle = document.getElementById("navMenuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+  if (menuToggle && mobileMenu) {
+    const setMenuOpen = (open) => {
+      menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      menuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      mobileMenu.setAttribute("aria-hidden", open ? "false" : "true");
+      mobileMenu.classList.toggle("is-open", open);
+      document.body.classList.toggle("mobile-menu-open", open);
+    };
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+      setMenuOpen(!isOpen);
+    });
+
+    // Close when any link inside the menu is tapped (so smooth-scroll lands clean).
+    mobileMenu.querySelectorAll("a[data-mobile-link], a.mobile-menu-login").forEach((a) => {
+      a.addEventListener("click", () => setMenuOpen(false));
+    });
+
+    // Close on Escape.
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && menuToggle.getAttribute("aria-expanded") === "true") {
+        setMenuOpen(false);
+        menuToggle.focus();
+      }
+    });
+
+    // Close when the viewport widens past the mobile breakpoint.
+    const mql = window.matchMedia("(min-width: 961px)");
+    const handleWidthChange = (ev) => {
+      if (ev.matches) setMenuOpen(false);
+    };
+    if (mql.addEventListener) mql.addEventListener("change", handleWidthChange);
+    else mql.addListener(handleWidthChange);
+  }
+
   /* -------------------- Smooth anchor scroll -------------------- */
   const headerEl = document.querySelector(".site-header");
   const getHeaderH = () => (headerEl ? headerEl.offsetHeight : 72);
