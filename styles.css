@@ -92,6 +92,11 @@ a { color: inherit; text-decoration: none; }
   visibility: hidden;
   pointer-events: none;
 }
+/* While the preloader sits over the page, hide the sticky header so
+   the hamburger / login outlines don't bleed through during the
+   opacity fade-out. The preloader removes itself from the DOM once
+   the fade finishes (see app.js), so the header reappears then. */
+.preloader ~ .site-header { visibility: hidden; }
 .preloader-inner { text-align: center; }
 .preloader-drop {
   display: block; margin: 0 auto 28px;

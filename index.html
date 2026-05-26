@@ -81,7 +81,10 @@
 <body>
   <!-- Preloader: animated water drop filling with brand gradient.
        JS adds .is-loaded once page is ready. Hidden for no-JS users. -->
-  <noscript><style>#preloader { display: none !important; }</style></noscript>
+  <noscript><style>
+    #preloader { display: none !important; }
+    .preloader ~ .site-header { visibility: visible !important; }
+  </style></noscript>
   <div class="preloader" id="preloader" role="status" aria-live="polite" aria-label="Loading">
     <div class="preloader-inner">
       <svg class="preloader-drop" width="92" height="110" viewBox="0 0 11 13" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
